@@ -92,6 +92,29 @@ def tokengeneration(request):
 
 
 
+#### second implementation
+
+
+def tokengeneration(request):
+    name= request.GET.get('name')
+    print(name)
+    try:
+        user=User.objects.get(username=name)
+    except User.DoesNotExist:
+        return HttpResponse('user not exit please create your account')
+    try:
+        to = token.objects.get(name=name)
+        print(to.tokenno)
+        return HttpResponse('token alreeady generated')
+    except token.DoesNotExist:
+        import random
+        x=random.randrange(20, 50, 3)
+        print(x)
+        t=token(name=name, tokenno=name +str( x))
+        t.save()
+    return HttpResponse('token got generated sucessfully working')
+
+
 
 
 
